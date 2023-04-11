@@ -21,7 +21,7 @@ https://repo.anaconda.com/pkgs/main/linux-64/libffi-3.3-he6710b0_2.conda
 https://repo.anaconda.com/pkgs/main/linux-64/libuuid-1.0.3-h1bed415_2.conda
 https://repo.anaconda.com/pkgs/main/linux-64/libxcb-1.14-h7b6447c_0.conda
 https://repo.anaconda.com/pkgs/main/linux-64/lz4-c-1.9.2-he6710b0_1.conda
-https://repo.anaconda.com/pkgs/main/linux-64/ncurses-6.2-he6710b0_1.conda
+# https://repo.anaconda.com/pkgs/main/linux-64/ncurses-6.2-he6710b0_1.conda
 https://repo.anaconda.com/pkgs/main/linux-64/openssl-1.1.1g-h7b6447c_0.conda
 https://repo.anaconda.com/pkgs/main/linux-64/pcre-8.44-he6710b0_0.conda
 https://repo.anaconda.com/pkgs/main/linux-64/xz-5.2.5-h7b6447c_0.conda
