@@ -10,20 +10,29 @@ from skimage.util import img_as_ubyte
 from models.get_model import get_arch
 from utils.model_saving_loading import load_model
 from predict_one_image import get_fov, crop_to_fov, create_pred
+import logging
+
+logger = logging
+logger.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s.%(msecs)03d :: %(levelname)s:%(name)s:[%(filename)s:%(lineno)d] :: %(message)s",
+    datefmt="%Y-%m-%d | %H:%M:%S",
+)
+logger.getLogger('xmlschema').setLevel(logger.WARNING)
 
 
 
-def main(folder_to_run):
+def main(folder_to_run, output_dir):
     device = 'cpu'
     # get all the pngs in the folder to run
     files = os.listdir(folder_to_run)
     files = [f for f in files if f.endswith('.png')]
     files.sort()
-    num_files = len(files)
+    num_files = len(files)-1
 
-    result_path = None
+    result_path = output_dir
 
-    bin_thresh = 0.2
+    bin_thresh = 0.05
     tta = 'from_preds'
 
     model_name = 'wnet'
@@ -47,7 +56,7 @@ def main(folder_to_run):
     model.eval()
 
     for idx, f in enumerate(files):
-        print(idx, num_files, f)
+        logger.info(f'File {idx} of {num_files}: {f}')
         im_path = os.path.join(folder_to_run, f)
         im_loc = osp.dirname(im_path)
         im_name = im_path.rsplit('/', 1)[-1]
@@ -65,8 +74,11 @@ def main(folder_to_run):
         else:
             mask = Image.open(mask_path).convert('L')
         mask = np.array(mask).astype(bool)
-        img, coords_crop = crop_to_fov(img, mask)
-
+        try:
+            img, coords_crop = crop_to_fov(img, mask)
+        except IndexError:
+            logger.warning(f'No FOV found in {im_path}')
+            continue
         original_sz = img.size[1], img.size[0]  # in numpy convention
 
         rsz = p_tr.Resize(tg_size)
@@ -83,5 +95,6 @@ def main(folder_to_run):
 
 
 if __name__ == '__main__':
-    folder_to_run = '/Users/austin/test_files/eyes/test_in'
-    main(folder_to_run)
+    folder_to_run = '/Users/austin/test_files/eyes'
+    output_dir = '/Users/austin/test_files/eyes/out'
+    main(folder_to_run, output_dir)
