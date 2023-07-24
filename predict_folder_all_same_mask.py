@@ -24,12 +24,13 @@ logger.getLogger('xmlschema').setLevel(logger.WARNING)
 
 
 
-def main(folder_to_run, output_dir, lwnet_dir):
+def main(folder_to_run, output_dir, lwnet_dir, start_idx, end_idx):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     # get all the pngs in the folder to run
     files = os.listdir(folder_to_run)
     files = [f for f in files if f.endswith('.png')]
     files.sort()
+    files = files[start_idx:end_idx]
     num_files = len(files)-1
 
     result_path = output_dir
@@ -129,6 +130,8 @@ if __name__ == '__main__':
     parser.add_argument('--folder_to_run', type=str, help='input directory', required=True)
     parser.add_argument('--output_dir', type=str, help='output directory', required=True)
     parser.add_argument('--lwnet_dir', type=str, help='directory of code', required=True)
+    parser.add_argument('--start_idx', type=int, required=True)
+    parser.add_argument('--end_idx', type=int, required=True)
     args = parser.parse_args()
 
-    main(args.folder_to_run, args.output_dir, args.lwnet_dir)
+    main(args.folder_to_run, args.output_dir, args.lwnet_dir, args.start_idx, args.end_idx)
