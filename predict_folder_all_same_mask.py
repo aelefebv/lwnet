@@ -12,6 +12,7 @@ from predict_one_image_av import get_fov, crop_to_fov, create_pred
 from predict_one_image import create_pred as create_pred_bw
 from utils.model_saving_loading import load_model
 import logging
+import torch
 
 logger = logging
 logger.basicConfig(
@@ -24,7 +25,7 @@ logger.getLogger('xmlschema').setLevel(logger.WARNING)
 
 
 def main(folder_to_run, output_dir):
-    device = 'cpu'
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     # get all the pngs in the folder to run
     files = os.listdir(folder_to_run)
     files = [f for f in files if f.endswith('.png')]
@@ -117,6 +118,6 @@ def main(folder_to_run, output_dir):
 
 
 if __name__ == '__main__':
-    folder_to_run = '/Users/austin/test_files/eyes'
-    output_dir = '/Users/austin/test_files/eyes/out'
+    folder_to_run = r"D:\test_files\eyes\test_in"
+    output_dir = r"D:\test_files\eyes\test_out"
     main(folder_to_run, output_dir)
