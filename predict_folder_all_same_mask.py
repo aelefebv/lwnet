@@ -24,7 +24,7 @@ logger.getLogger('xmlschema').setLevel(logger.WARNING)
 
 
 
-def main(folder_to_run, output_dir):
+def main(folder_to_run, output_dir, lwnet_dir):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     # get all the pngs in the folder to run
     files = os.listdir(folder_to_run)
@@ -41,9 +41,9 @@ def main(folder_to_run, output_dir):
 
 
     model_name_av = 'big_wnet'
-    model_path_av = 'experiments/big_wnet_drive_av'
+    model_path_av = osp.join(lwnet_dir, 'experiments', 'big_wnet_drive_av')
     model_name_bw = 'wnet'
-    model_path_bw = 'experiments/wnet_drive'
+    model_path_bw = osp.join(lwnet_dir, 'experiments', 'wnet_drive')
     mask_path = None
 
     out_size = '512'
@@ -128,6 +128,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Process some images.')
     parser.add_argument('--folder_to_run', type=str, help='input directory', required=True)
     parser.add_argument('--output_dir', type=str, help='output directory', required=True)
+    parser.add_argument('--lwnet_dir', type=str, help='directory of code', required=True)
     args = parser.parse_args()
 
-    main(args.folder_to_run, args.output_dir)
+    main(args.folder_to_run, args.output_dir, args.lwnet_dir)
