@@ -118,6 +118,16 @@ def main(folder_to_run, output_dir):
 
 
 if __name__ == '__main__':
-    folder_to_run = r"D:\test_files\eyes\test_in"
-    output_dir = r"D:\test_files\eyes\test_out"
-    main(folder_to_run, output_dir)
+    # folder_to_run = r"D:\test_files\eyes\test_in"
+    # output_dir = r"D:\test_files\eyes\test_out"
+    # main(folder_to_run, output_dir)
+    #
+    #
+    # if __name__ == '__main__':
+    import argparse
+    parser = argparse.ArgumentParser(description='Process some images.')
+    parser.add_argument('--folder_to_run', type=str, help='input directory', required=True)
+    parser.add_argument('--output_dir', type=str, help='output directory', required=True)
+    args = parser.parse_args()
+
+    main(args.folder_to_run, args.output_dir)
